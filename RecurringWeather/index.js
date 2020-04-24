@@ -1,7 +1,15 @@
 const axios = require("axios");
 
-module.exports = async function (context, req) {
-    context.log('JavaScript HTTP trigger function processed a request.');
+module.exports = async function (context, myTimer) {
+    var timeStamp = new Date().toISOString();
+    
+    // if (myTimer.isPastDue)
+    // {
+    //     context.log('JavaScript is running late!');
+    // }
+    // context.log('JavaScript timer trigger function ran!', timeStamp);   
+
+    ontext.log('JavaScript HTTP trigger function processed a request.');
 
     try {
 
@@ -43,7 +51,6 @@ module.exports = async function (context, req) {
             body: error.message
         };
     }
-
 };
 
 
