@@ -9,7 +9,7 @@ module.exports = async function (context, myTimer) {
     // }
     // context.log('JavaScript timer trigger function ran!', timeStamp);   
 
-    ontext.log('JavaScript HTTP trigger function processed a request.');
+    context.log('JavaScript HTTP trigger function processed a request.');
 
     try {
 
