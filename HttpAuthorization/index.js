@@ -4,21 +4,23 @@ const {google} = require('googleapis');
 module.exports = async function (context, req) {
     context.log('JavaScript HTTP trigger function processed a request.');
 
-    const id = req.params.id;
     const code = req.query.code;
+    const id = req.query.state;
 
     try {
         let user = await getUser(id);
-        context.log('user: ' + user);
+        context.log('user: ' + JSON.stringify(user));
 
         const oauth2Client = new google.auth.OAuth2(
             user.provider.client_id,
             user.provider.client_secret,
-            "https://developers.google.com/oauthplayground"
+            "https://omarks4-functions.azurewebsites.net/api/auth"
           );
         let tokens = await getToken(oauth2Client, code);
 
-        context.log('tokens: ' + tokens);
+        context.log('tokens: ' + JSON.stringify(tokens));
+
+        let res = await postToken(id, tokens);
 
         context.res = {
             status: 200, /* Defaults to 200 */
@@ -60,7 +62,7 @@ async function getToken(oauth2Client, code) {
 async function postToken(uid, body) {
     try {
         const response = await axios({
-            url: `https://us-central1-omarks4.cloudfunctions.net/weather-api/api/users/${uid}/tokens`,
+            url: `https://us-central1-omarks4.cloudfunctions.net/setting-api/api/users/${uid}/tokens`,
             method: "post",
             data: body
           });
@@ -68,6 +70,6 @@ async function postToken(uid, body) {
         return response.data;
 
     } catch (error) {
-        console.log('Error post weather ', error.message);
+        console.log('Error post tokens ', error.message);
     }
 }
